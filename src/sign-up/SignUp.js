@@ -83,7 +83,7 @@ export default function SignUp() {
           md={7}
           sx={{
             backgroundImage:
-              "url(https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80)",
+              "url(https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80)",
 
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
@@ -250,7 +250,7 @@ export default function SignUp() {
                   alignItems="center"
                   justifyContent="center"
                 >
-                  <Link className="formFieldLink" variant="body2">
+                  <Link href="" variant="body2">
                     {"Already Have Account? Sign-In "}
                   </Link>
                 </Grid>

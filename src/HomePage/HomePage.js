@@ -1,86 +1,98 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import MenuIcon from "@mui/icons-material/Menu";
+import React from "react";
 
-export default function SwipeableTemporaryDrawer() {
-  const [state, setState] = React.useState({
-    left: false,
-  });
-
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
-    setState({ ...state, [anchor]: open });
-  };
-
-  const list = (anchor) => (
-    <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
-
+function Navbar() {
   return (
-    <div>
-      {["left"].map((anchor) => (
-        <React.Fragment key={"left"}>
-          <Button onClick={toggleDrawer(anchor, true)}>
-            <MenuIcon />
-          </Button>
-          <SwipeableDrawer
-            anchor={"left"}
-            open={state["left"]}
-            onClose={toggleDrawer("left", false)}
-            onOpen={toggleDrawer("left", true)}
+    <>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="_blank">
+            News App
+          </a>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
           >
-            {list(anchor)}
-          </SwipeableDrawer>
-        </React.Fragment>
-      ))}
-    </div>
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <a
+                  className="nav-link active"
+                  aria-current="page"
+                  href="_blank"
+                >
+                  Home
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="_blank">
+                  Favorites
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="_blank">
+                  Business
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="_blank">
+                  Sports
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="_blank">
+                  Science
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="_blank">
+                  Technology
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="_blank">
+                  Health
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="_blank">
+                  General
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="_blank">
+                  Entertainment
+                </a>
+              </li>
+
+              <form className="d-flex px-4 ">
+                <input
+                  className="form-control me-2 "
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                />
+                <button className="btn btn-outline-success" type="submit">
+                  Search
+                </button>
+              </form>
+            </ul>
+            <form className="d-flex">
+              <button className="btn btn btn-danger" type="submit">
+                Logout
+              </button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </>
   );
 }
+
+export default Navbar;
