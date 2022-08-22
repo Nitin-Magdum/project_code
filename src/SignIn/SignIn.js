@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -10,10 +11,31 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginIcon from "@mui/icons-material/Login";
-
+import apiConfig from "../config";
 const theme = createTheme();
 
-export default function SignInSide() {
+export default function SignIn() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const Login = () => {
+    fetch(`${apiConfig.authapi}/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === 200) {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("email", email);
+          navigate("./"); 
+        }
+      });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
   };
@@ -64,6 +86,7 @@ export default function SignInSide() {
             >
               <Box sx={{ m: 8 }} />
               <TextField
+                onChange={(e) => setEmail(e.target.value)}
                 margin="normal"
                 required
                 fullWidth
@@ -75,6 +98,7 @@ export default function SignInSide() {
               />
               <Box sx={{ m: 3 }} />
               <TextField
+                onChange={(e) => setPassword(e.target.value)}
                 margin="normal"
                 required
                 fullWidth
@@ -86,6 +110,7 @@ export default function SignInSide() {
               />
 
               <Button
+                onClick={Login}
                 type="submit"
                 fullWidth
                 variant="contained"

@@ -1,5 +1,5 @@
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import * as React from "react";
 import Container from "@material-ui/core/Container";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
@@ -14,6 +14,7 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import apiConfig from "../config";
 
 let SignupSchema = yup.object().shape({
   firstName: yup.string().required("This field is required."),
@@ -65,11 +66,37 @@ const useStyles = makeStyles((theme) => ({
 }));
 const theme = createTheme();
 export default function SignUp() {
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const classes = useStyles();
-  const handleSubmit = (event) => {
+
+  const signupUser = () => {
+    fetch(`${apiConfig.authapi}/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        firstname,
+        lastname,
+        email,
+        password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === 200) {
+          console.log("Successfully registered");
+        }
+      });
+  };
+
+  function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-  };
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -132,12 +159,12 @@ export default function SignUp() {
                         <Grid container spacing={2}>
                           <Grid item xs={12} sm={6}>
                             <TextField
+                              onChange={(e) => setFirstname(e.target.value)}
                               error={errors.firstName && touched.firstName}
                               autoComplete="fname"
                               name="firstName"
                               variant="outlined"
                               fullWidth
-                              onChange={handleChange}
                               id="firstName"
                               label="First Name"
                               autoFocus
@@ -150,10 +177,10 @@ export default function SignUp() {
                           </Grid>
                           <Grid item xs={12} sm={6}>
                             <TextField
+                              onChange={(e) => setLastname(e.target.value)}
                               error={errors.lastName && touched.lastName}
                               variant="outlined"
                               fullWidth
-                              onChange={handleChange}
                               id="lastName"
                               label="Last Name"
                               name="lastName"
@@ -167,10 +194,11 @@ export default function SignUp() {
                           </Grid>
                           <Grid item xs={12}>
                             <TextField
+                              onChange={(e) => setEmail(e.target.value)}
                               error={errors.email && touched.email}
                               variant="outlined"
                               fullWidth
-                              onChange={handleChange}
+                              // onChange={handleChange}
                               id="email"
                               label="Email Address"
                               name="email"
@@ -187,7 +215,7 @@ export default function SignUp() {
                               error={errors.password && touched.password}
                               variant="outlined"
                               fullWidth
-                              onChange={handleChange}
+                              // onChange={handleChange}
                               name="password"
                               label="Password"
                               type="password"
@@ -202,13 +230,14 @@ export default function SignUp() {
                           </Grid>
                           <Grid item xs={12}>
                             <TextField
+                              onChange={(e) => setPassword(e.target.value)}
                               error={
                                 errors.confirmpassword &&
                                 touched.confirmpassword
                               }
                               variant="outlined"
                               fullWidth
-                              onChange={handleChange}
+                              // onChange={handleChange}
                               name="confirm password"
                               label="Confirm Password"
                               type="password"
@@ -230,6 +259,7 @@ export default function SignUp() {
                           type="submit"
                           fullWidth
                           variant="contained"
+                          onClick={signupUser}
                           color="primary"
                           className={classes.submit}
                         >
